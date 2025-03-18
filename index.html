@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Biblical Hebrew Vocabulary Aids</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <style>
+        @font-face {
+            font-family: 'EzraSIL';
+            src: url('https://cdnjs.cloudflare.com/ajax/libs/webfonts/fonts/EzraSIL-webfont.woff') format('woff');
+            font-weight: normal;
+            font-style: normal;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        /* Add page header styles */
+        .page-header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background-color: lightblue;
+            padding: 10px 20px;
+            text-align: center;
+            z-index: 1000;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            background-color: #f5f5f5;
+            display: flex;
+            min-height: 100vh;
+            padding-top: 100px; /* Add padding equal to header height */
+        }
+
+        .sidebar {
+            width: 300px;
+            background-color: #f0f8ff;
+            padding: 20px;
+            overflow-y: auto;
+            border-right: 1px solid #ddd;
+        }
+
+        .sidebar h2 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        .categories {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+        }
+
+        .category-btn {
+            background-color: #add8e6; /* Light blue */
+            color: #333;
+            border: none;
+            padding: 10px;
+            text-align: left;
+            cursor: pointer;
+            border-radius: 5px;
+            font-size: 14px;
+            transition: background-color 0.3s;
+            position: relative;
+        }
+
+        .category-btn.active {
+            background-color: #ff6b6b; /* Red when active */
+            color: darkblue;
+        }
+
+        .word-count {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            background-color: rgba(255, 255, 255, 0.7);
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+        }
+
+        .main-content {
+            flex: 1;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .flashcard {
+            width: 1100px;
+            height: 500px;
+            background-color: floralwhite;
+            border-radius: 10px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
+            display: flex;
+            flex-direction: column;
+            padding: 20px;
+            cursor: pointer;
+            position: relative;
+            margin-bottom: 20px;
+        }
+
+        .word {
+            font-family: 'EzraSIL', 'SBL Hebrew', 'Times New Roman', serif;
+            font-size: 180px;
+            text-align: center;
+            margin-top: 20px;
+            direction: rtl;
+            min-height: 120px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow-wrap: break-word;
+            word-wrap: break-word;
+        }
+
+        .definition {
+            font-size: 30px;
+            text-align: center;
+            margin-top: auto;
+            border-top: 1px solid #eee;
+            padding-top: 15px;
+            min-height: 100px;
+            overflow-y: auto;
+            display: none;
+        }
+
+        .navigation {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-bottom: 80px;
+        }
+
+        .nav-btn {
+            background-color: #4a90e2;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s;
+        }
+
+        .nav-btn:hover {
+            background-color: #357abD;
+        }
+
+        .nav-btn:disabled {
+            background-color: #cccccc;
+            cursor: not-allowed;
+        }
+
+        .category-title {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        @media (max-width: 768px) {
+            body {
+                flex-direction: column;
+            }
+
+            .sidebar {
+                width: 100%;
+                max-height: 200px;
+                border-right: none;
+                border-bottom: 1px solid #ddd;
+            }
+
+            .categories {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .flashcard {
+                width: 90%;
+                height: 350px;
+            }
+        }
+    </style>    
+<body>
+    <!-- Add page header -->
+    <div class="page-header">
+        <h1>BIBLICAL HEBREW VOCABULARY AIDS</h1>
+        <h2>(coded by THUYEN PHAN, MDiv., ThM., PhD.)</h2>        
+    </div>
+        
+    <div class="sidebar">
+        <h2>Word Occurrences</h2>
+        <div class="categories">
+            <button class="category-btn" data-category="verbs-500">
+                Verbs 500+ times
+                <span class="word-count">12</span>
+            </button>
+            <button class="category-btn" data-category="verbs-200-499">
+                Verbs 200 to 499 times
+                <span class="word-count">24</span>
+            </button>
+            <button class="category-btn" data-category="verbs-100-199">
+                Verbs 100 to 199 times
+                <span class="word-count">18</span>
+            </button>
+            <button class="category-btn" data-category="verbs-70-99">
+                Verbs 70 to 99 times
+                <span class="word-count">15</span>
+            </button>
+            <button class="category-btn" data-category="verbs-50-69">
+                Verbs 50 to 69 times
+                <span class="word-count">20</span>
+            </button>
+            <button class="category-btn" data-category="verbs-25-49">
+                Verbs 25 to 49 times
+                <span class="word-count">30</span>
+            </button>
+            <button class="category-btn" data-category="verbs-10-24">
+                Verbs 10 to 24 times
+                <span class="word-count">45</span>
+            </button>
+            <button class="category-btn" data-category="nominal-10">
+                Nominal 10+ times
+                <span class="word-count">32</span>
+            </button>
+            <button class="category-btn" data-category="words-500">
+                Words 500+ times
+                <span class="word-count">10</span>
+            </button>
+            <button class="category-btn" data-category="words-300-400">
+                Words 300 to 400 times
+                <span class="word-count">15</span>
+            </button>
+            <button class="category-btn" data-category="words-200-299">
+                Words 200 to 299 times
+                <span class="word-count">20</span>
+            </button>
+            <button class="category-btn" data-category="words-100-199">
+                Words 100 to 199 times
+                <span class="word-count">25</span>
+            </button>
+            <button class="category-btn" data-category="words-70-99">
+                Words 70 to 99 times
+                <span class="word-count">18</span>
+            </button>
+            <button class="category-btn" data-category="words-50-69">
+                Words 50 to 69 times
+                <span class="word-count">22</span>
+            </button>
+            <button class="category-btn" data-category="words-25-49">
+                Words 25 to 49 times
+                <span class="word-count">40</span>
+            </button>
+            <button class="category-btn" data-category="words-10-24">
+                Words 10 to 24 times
+                <span class="word-count">50</span>
+            </button>
+        </div>
+    </div>
+
+    <div class="main-content">
+        <h2 class="category-title">PLEASE SELECT A CATEGORY TO BEGIN</h2>
+        <div class="flashcard" id="flashcard" style="display: none;">
+            <div class="word" id="word"></div>
+            <div class="definition" id="definition"></div>
+        </div>
+        <div class="navigation">
+            <button class="nav-btn" id="prev-btn" disabled>
+                <i class="fas fa-arrow-left"></i> Previous
+            </button>
+            <button class="nav-btn" id="next-btn" disabled>
+                Next <i class="fas fa-arrow-right"></i>
+            </button>
+        </div>
+    </div>
+
+    <script>
+        // Sample vocabulary data
+        const vocabularyData = {
+            "verbs-500": [
+                {word: 'אכל', definition: '(intrans.) to eat, feed; (trans., Hi.) feed'},
+                {word: 'אֹ֫כֶל', definition: 'food'},
+                {word: 'מַאֲכָל', definition: 'food, nourishment'},
+                {word: 'אֹכְלָה', definition: 'food, nourishment'},
+                {word: 'אמר', definition: 'to say, mention; give orders'},
+                {word: 'אֵ֫מֶר', definition: 'word'},
+                {word: 'אִמְרָה', definition: 'word, saying'},
+                {word: 'בוא', definition: 'to enter, come (to); (Hi.) bring, lead in'},
+                {word: 'תְּבוּאָה', definition: 'produce, yield (from land); harvest (also in sense of profit)'},
+                {word: 'מָבוֹא', definition: 'entrance, entering; descent, setting (of sun, stars)'},
+                {word: 'דבר', definition: 'to speak'},
+                {word: 'דָּבָר', definition: 'word, matter, affair, thing, something (over 500)'},
+                {word: 'היה', definition: 'come to pass, occur, happen; to be, become'},
+                {word: 'יהוה', definition: 'Yahweh (over 500)'},
+                {word: 'יָהּ, יָה', definition: 'Yah'},
+                {word: 'הלךְ', definition: 'to go, walk'},
+                {word: 'ידע', definition: 'to notice, know, copulate (know sexually); (Hi.) inform'},
+                {word: 'דַּ֫עַת', definition: 'knowledge, discernment, understanding'},
+                {word: 'מַדּוּעַ', definition: '(interrog. pron.) on what account? why?'},
+                {word: 'יִדְּעֹנִי', definition: 'spirit of divination, soothsayer'},
+                {word: 'ילד', definition: '(Qal and Hi.) to give birth, beget; (Ni., Pu., Ho.) be born'},
+                {word: 'יֶ֫לֶד', definition: 'a boy'},
+                {word: 'יַלְדָּה', definition: 'a girl'},
+                {word: 'תֹּלֵדוֹת', definition: 'descendants, successors'},
+                {word: 'מוֹלֶ֫דֶת', definition: 'descendants, relatives; descent'},
+                {word: 'יָלִיד', definition: 'son; slave born in the household'},
+                {word: 'יצא', definition: 'to come or go out, to come or go forth; set out, move away; (Hi.) to cause to go out, lead out, produce'},
+                {word: 'צֹאן', definition: 'flocks (sheep and goats)'},
+                {word: 'מוֹצָא', definition: 'place of departure; exit, way out; pronouncement; coming forth, appearance'},
+                {word: 'תּוֹצָאוֹת', definition: 'exits (from a city); outermost areas, limit of the borderline'},
+                {word: 'צֶאֱצָאִים', definition: 'offspring (of plants and human descendants)'},
+                {word: 'ישׁב', definition: 'sit or sit down, remain sitting, dwell, be inhabited'},
+                {word: 'יֹשֵׁב', definition: '(Qal act. ptc. used as n.) inhabitant'},
+                {word: 'מוֹשָׁב', definition: 'seat, dwelling place, period of residence'},
+                {word: 'תּוֹשָׁב', definition: 'resident alien, sojourner'},
+                {word: 'לקח', definition: 'to take, grasp, seize; accept, receive; fetch, bring'},
+                {word: 'לֶ֫קַח', definition: 'teaching, instruction, insight'},
+                {word: 'מות', definition: 'to die; (Hi.) to kill'},
+                {word: 'מָ֫וֶת', definition: 'death, dying'},
+                {word: 'נכה', definition: '(Hi.) to strike, smite'},
+                {word: 'מַכָּה', definition: 'blow, wound; plague; defeat'},
+                {word: 'נשׂא', definition: 'to carry, lift or lift up, raise, receive someone in a friendly manner, be favorably disposed toward someone'},
+                {word: 'נָשִׂיא', definition: 'leader, chieftain'},
+                {word: 'מַשָּׂא', definition: 'load, burden'},
+                {word: 'מַשָּׂא', definition: 'pronouncement'},
+                {word: 'מַשְּׂאֵת, מַשָּׂאָה', definition: 'elevation (of hands, smoke), tribute, present; lifting up, exaltation'},
+            ],
+            "verbs-200-499": [
+                { word: "עָשָׂה", definition: "to do, make" },
+                { word: "עָשָׂה", definition: "to do, make" },
+            ],
+            "verbs-100-199": [
+                { word: "יָדַע", definition: "to know" },
+                { word: "עָשָׂה", definition: "to do, make" },
+            ],
+            "verbs-70-99": [
+                { word: "רָאָה", definition: "to see, look at, perceive" },
+                { word: "עָשָׂה", definition: "to do, make" },
+            ],
+            "verbs-50-69": [
+                { word: "שָׁמַע", definition: "to hear, listen to, obey" },
+                { word: "עָשָׂה", definition: "to do, make" },
+            ],
+            "verbs-25-49": [
+                { word: "חָיָה", definition: "to live, stay alive" },
+                { word: "עָשָׂה", definition: "to do, make" },
+            ],
+            "verbs-10-24": [
+                { word: "קָטַל", definition: "to kill, slay" },
+                { word: "עָשָׂה", definition: "to do, make" },
+            ],
+            "nominal-10": [
+                { word: "אָדָם", definition: "man, mankind, human being" },
+                { word: "עָשָׂה", definition: "to do, make" },
+            ],
+            "words-500": [
+                { word: "אֱלֹהִים", definition: "God, gods, judges (divine ones)" },
+                { word: "עָשָׂה", definition: "to do, make" },
+            ],
+            "words-300-400": [
+                { word: "יוֹם", definition: "day, time, year" },
+                { word: "עָשָׂה", definition: "to do, make" },
+            ],
+            "words-200-299": [
+                { word: "אֶרֶץ", definition: "earth, land, ground, country" },
+                { word: "עָשָׂה", definition: "to do, make" },
+            ],
+            "words-100-199": [
+                { word: "עִיר", definition: "city, town" },
+                { word: "עָשָׂה", definition: "to do, make" },
+            ],
+            "words-70-99": [
+                { word: "דָּבָר", definition: "word, speech, matter, thing" },
+                { word: "עָשָׂה", definition: "to do, make" },
+            ],
+            "words-50-69": [
+                { word: "עַם", definition: "people, nation, kinfolk" },
+            ],
+            "words-25-49": [
+                { word: "מֶלֶךְ", definition: "king, ruler" },
+                { word: "עָשָׂה", definition: "to do, make" },
+            ],
+            "words-10-24": [
+                { word: "בַּיִת", definition: "house, household, family, dynasty, temple" },
+                { word: "עָשָׂה", definition: "to do, make" },
+            ]
+        };
+
+        // DOM elements
+        const categoryButtons = document.querySelectorAll('.category-btn');
+        const flashcard = document.getElementById('flashcard');
+        const wordElement = document.getElementById('word');
+        const definitionElement = document.getElementById('definition');
+        const prevBtn = document.getElementById('prev-btn');
+        const nextBtn = document.getElementById('next-btn');
+        const categoryTitle = document.querySelector('.category-title');
+
+        // State variables
+        let currentCategory = null;
+        let currentIndex = 0;
+        let showingDefinition = false;
+
+        // Event listeners for category buttons
+        categoryButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                // Remove active class from all buttons
+                categoryButtons.forEach(btn => btn.classList.remove('active'));
+                
+                // Add active class to clicked button
+                button.classList.add('active');
+                
+                // Set current category
+                const category = button.getAttribute('data-category');
+                currentCategory = category;
+                currentIndex = 0;
+                showingDefinition = false;
+                
+                // Update category title
+                categoryTitle.textContent = button.textContent.trim().split('\n')[0];
+                
+                // Show flashcard
+                flashcard.style.display = 'flex';
+                
+                // Load first word
+                loadWord();
+                
+                // Enable/disable navigation buttons
+                updateNavButtons();
+            });
+        });
+
+        // Flashcard click event
+        flashcard.addEventListener('click', () => {
+            if (!showingDefinition) {
+                // Show definition
+                definitionElement.style.display = 'block';
+                showingDefinition = true;
+            } else {
+                // Go to next word
+                if (currentIndex < vocabularyData[currentCategory].length - 1) {
+                    currentIndex++;
+                    showingDefinition = false;
+                    loadWord();
+                    updateNavButtons();
+                }
+            }
+        });
+
+        // Navigation button events
+        prevBtn.addEventListener('click', () => {
+            if (currentIndex > 0) {
+                currentIndex--;
+                showingDefinition = false;
+                loadWord();
+                updateNavButtons();
+            }
+        });
+
+        nextBtn.addEventListener('click', () => {
+            if (currentIndex < vocabularyData[currentCategory].length - 1) {
+                currentIndex++;
+                showingDefinition = false;
+                loadWord();
+                updateNavButtons();
+            }
+        });
+
+        // Function to load word into flashcard
+        function loadWord() {
+            const wordData = vocabularyData[currentCategory][currentIndex];
+            wordElement.textContent = wordData.word;
+            definitionElement.textContent = wordData.definition;
+            definitionElement.style.display = 'none';
+        }
+
+        // Function to update navigation buttons
+        function updateNavButtons() {
+            prevBtn.disabled = currentIndex === 0;
+            nextBtn.disabled = currentIndex === vocabularyData[currentCategory].length - 1;
+        }
+    </script>
+</body>
+</html>
